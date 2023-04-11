@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-10 col-lg-10 col-xl-10">
+            
+            <h3 class="mb-4 pb-2 fw-normal">Check the next 5 days weather forecast</h3>
+            <form method="POST">
+                <div class="input-group rounded mb-3">
+                    <input type="search" name="city" class="form-control rounded" placeholder="City" aria-label="Search" aria-describedby="search-addon" value="{{ request.form['city'] }}" required />
+                    <button type="submit" class="btn btn-primary btn-rounded">
+                        <span class="fw-bold" id="search-addon">Check!</span>
+                    </button>
+                </div>
+                <div class="mb-4 pb-2">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="temp_units" id="inlineRadio1" value="metric" checked />
+                        <label class="form-check-label" for="inlineRadio1">Celsius</label>
+                    </div>
+          
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="temp_units" id="inlineRadio2" value="imperial" />
+                        <label class="form-check-label" for="inlineRadio2">Farenheit</label>
+                    </div>
+                </div>
+            </form>
+            
+            {% for data in weather_data['data'] %}
+            {% for key,value in data.items() %}
+            
+            <div class="card mb-4" style="border-radius: 25px;">
+                <div class="card-body p-4">
+                    <div class="d-flex small mb-4">
+                        <p class="flex-grow-1">{{ weather_data['city'] }}</p>
+                        <p>{{ key }}</p>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="d-flex justify-content-around text-center mb-4 pb-3 pt-2">
+                                {% for d in value %}
+                                <div class="flex-column">
+                                    <p class="small"><strong>{{ d['temperature'] }}</strong></p>
+                                    <img src="{{ d['icon'] }}" width="100px">
+                                    <p class="mb-0"><strong>{{ d['time'] }}</strong></p>
+                                    <p class="mb-0 text-muted" style="font-size: .65rem;">PM</p>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endfor %}
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

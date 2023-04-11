@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<title>{% block title %}{% endblock %} - weather</title>
+<!-- Font Awesome -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<body class="container">
+  <nav>
+    <h1><a href="{{ url_for('index') }}">Weather Application</a></h1>
+    <ul>
+    {% if g.user %}
+        <li><a href="{{ url_for('index') }}">Weather</a></li>
+        <li><a href="{{ url_for('main.forcast') }}">Forcast</a></li>
+        <li><span>{{ g.user['username'] }}</span>
+        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+    {% else %}
+        <!-- <li><a href="{{ url_for('auth.register') }}">Register</a>
+        <li><a href="{{ url_for('auth.login') }}">Log In</a> -->
+    {% endif %}
+    </ul>
+  </nav>
+  <section class="content">
+      <header>
+          {% block header %}{% endblock %}
+      </header>
+      {% for message in get_flashed_messages() %}
+          <div class="flash text-danger">{{ message }}</div>
+      {% endfor %}
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div>
+  </section>
+</body>
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+></script>
+</html>
